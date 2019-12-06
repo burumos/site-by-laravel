@@ -1,0 +1,35 @@
+version: '3'
+services:
+
+  laravel:
+    build: './app/'
+    container_name: laravel
+    # restart: always
+    depends_on:
+      - mysql
+      - mailhog
+    ports:
+      - "8000:80"
+    volumes:
+      - "./app:/var/www/html/app"
+      - "./httpd.conf:/etc/httpd/conf/httpd.conf"
+
+  mysql:
+    image: mysql:5.7
+    container_name: laravel-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql-password
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: mysql-password
+    ports:
+      - "33066:3306"
+    volumes:
+      - "./db/data:/var/lib/mysql"
+
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "8025:8025"
+      - "1025:1025"
