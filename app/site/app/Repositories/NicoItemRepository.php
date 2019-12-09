@@ -37,4 +37,13 @@ class NicoItemRepository
         return self::insertSingle($items);
     }
 
+    public function getImageSrc()
+    {
+        $result = $this->nicoItem
+                ->select('*')
+                ->pluck('image_src', 'video_id');
+
+        return $result;
+    }
+
 }

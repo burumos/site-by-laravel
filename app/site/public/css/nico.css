@@ -1,0 +1,8 @@
+
+.nico-item {
+    height: 190px;
+}
+
+.nico-item a > img {
+    width: 400px
+}

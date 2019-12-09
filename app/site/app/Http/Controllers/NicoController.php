@@ -99,4 +99,21 @@ class NicoController extends Controller
                           });
         return $registeredMylists->toJson();
     }
+
+
+    public function getImage($id)
+    {
+        $imageDir = \Constant::get('nico-image-dir');
+        $filePath = $imageDir.$id;
+        if (!Auth::check()
+            || !\Storage::exists($imageDir.$id)) {
+            $filePath = $imageDir.'not-found.jpg';
+        }
+
+        $file = \Storage::get($filePath);
+        $mimeType = \Storage::mimeType($filePath);
+
+        return response($file)
+            ->header('Content-Type', $mimeType);
+    }
 }

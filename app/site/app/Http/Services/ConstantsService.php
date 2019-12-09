@@ -15,5 +15,6 @@ class ConstantsService
         'nico-emails' => [
             'naoki19940317@yahoo.co.jp',
         ],
+        'nico-image-dir' => 'image/',
     ];
 }

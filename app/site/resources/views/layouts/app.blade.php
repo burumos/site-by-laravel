@@ -28,6 +28,16 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    @if (isset($css))
+      @if (is_string($css))
+        <link href="{{ asset($css) }}" rel="stylesheet" ></script>
+      @elseif (is_array($css))
+        @foreach ($css as $src)
+          <link href="{{ asset($src) }}" rel="stylesheet"></script>
+        @endforeach
+      @endif
+    @endif
 </head>
 <body>
     <div id="app">

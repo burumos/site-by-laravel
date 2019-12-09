@@ -15,3 +15,7 @@
   </div>
   <span style="display:none;" id="json-data" data-mylists="{{$mylists->toJson()}}"></span>
 @endsection
+
+@php
+$css = "css/nico.css";
+@endphp
