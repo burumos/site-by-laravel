@@ -72707,7 +72707,7 @@ var Mylist = function Mylist(_ref2) {
   }, [selectedId, mylists]);
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "ALL MYLISTS JSON", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
     rows: "1",
-    value: JSON.stringify(mylists),
+    value: JSON.stringify(Object.values(mylists)),
     readOnly: true
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "mylist:", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
     onChange: function onChange(e) {

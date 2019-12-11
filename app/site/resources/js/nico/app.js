@@ -83,7 +83,7 @@ const Mylist = ({ mylists }) => {
   return (
     <div>
       <div>
-        ALL MYLISTS JSON<textarea rows="1" value={ JSON.stringify(mylists) } readOnly ></textarea>
+        ALL MYLISTS JSON<textarea rows="1" value={ JSON.stringify(Object.values(mylists)) } readOnly ></textarea>
       </div>
       <div>
         mylist:
