@@ -39,17 +39,25 @@ export const register = jsonContent => {
   return dispatch => {
     jsonAjax('/nico/register', jsonContent)
       .then(mylists => {
-        action.payload.mylists = mylists;
+        let keySetMylist = {};
+        mylists.forEach(mylist => {
+          keySetMylist[mylist.id] = mylist
+        })
+        action.payload.mylists = keySetMylist;
         dispatch(action);
       });
   }
 }
 
 export const initMylists = mylists => {
+  let keySetMylist = {};
+  mylists.forEach(mylist => {
+    keySetMylist[mylist.id] = mylist
+  })
   return {
     type: actionTypes.INIT_MYLISTS,
     payload: {
-      mylists,
+      mylists: keySetMylist,
     }
   };
 }

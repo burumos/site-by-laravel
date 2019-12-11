@@ -72527,16 +72527,24 @@ var register = function register(jsonContent) {
 
   return function (dispatch) {
     Object(_common_request__WEBPACK_IMPORTED_MODULE_1__["jsonAjax"])('/nico/register', jsonContent).then(function (mylists) {
-      action.payload.mylists = mylists;
+      var keySetMylist = {};
+      mylists.forEach(function (mylist) {
+        keySetMylist[mylist.id] = mylist;
+      });
+      action.payload.mylists = keySetMylist;
       dispatch(action);
     });
   };
 };
 var initMylists = function initMylists(mylists) {
+  var keySetMylist = {};
+  mylists.forEach(function (mylist) {
+    keySetMylist[mylist.id] = mylist;
+  });
   return {
     type: _actionTypes__WEBPACK_IMPORTED_MODULE_0__["INIT_MYLISTS"],
     payload: {
-      mylists: mylists
+      mylists: keySetMylist
     }
   };
 };
@@ -72669,6 +72677,8 @@ function RegisterMylist(_ref) {
   }, "register"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, jsonMessage));
 }
 
+var ITEMS_BY_PAGE = 25;
+
 var Mylist = function Mylist(_ref2) {
   var mylists = _ref2.mylists;
   var mylistArray = Object.values(mylists);
@@ -72679,18 +72689,29 @@ var Mylist = function Mylist(_ref2) {
       selectedId = _useState2[0],
       setSelectedId = _useState2[1];
 
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(1),
+      _useState4 = _slicedToArray(_useState3, 2),
+      pageNum = _useState4[0],
+      setPageNum = _useState4[1];
+
+  var items = mylistArray.map(function (mylist) {
+    return mylist.id == selectedId ? mylist.items : [];
+  }).flat();
+  var displayItems = items.slice((pageNum - 1) * ITEMS_BY_PAGE, pageNum * ITEMS_BY_PAGE);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     if (mylistArray.length >= 1 && selectedId === noSelect) {
       setSelectedId(mylistArray[0].id);
     }
-  });
+
+    setPageNum(1);
+  }, [selectedId, mylists]);
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "ALL MYLISTS JSON", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
     rows: "1",
     value: JSON.stringify(mylists),
     readOnly: true
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "mylist:", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
     onChange: function onChange(e) {
-      return setSelectedId(e.target.value);
+      return setSelectedId(Number(e.target.value));
     },
     value: selectedId
   }, !Object.keys(mylists) && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
@@ -72700,33 +72721,74 @@ var Mylist = function Mylist(_ref2) {
       value: mylist.id,
       key: mylist.id
     }, mylist.name);
-  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, mylistArray.filter(function (mylist) {
-    return mylist.id == selectedId;
-  }).map(function (mylist) {
-    return mylist.items.map(function (item) {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(NicoItem, {
-        item: item,
-        key: item.id
-      });
+  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(MylistPagination, {
+    page: pageNum,
+    setPageNum: setPageNum,
+    itemCount: items.length
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, displayItems.map(function (item) {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(NicoItem, {
+      item: item,
+      key: item.id
     });
-  }))));
+  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(MylistPagination, {
+    page: pageNum,
+    setPageNum: setPageNum,
+    itemCount: items.length
+  })));
 };
 
-var NicoItem = function NicoItem(_ref3) {
-  var item = _ref3.item;
+var MylistPagination = function MylistPagination(_ref3) {
+  var page = _ref3.page,
+      setPageNum = _ref3.setPageNum,
+      itemCount = _ref3.itemCount;
+  var pageCount = Math.round(itemCount / ITEMS_BY_PAGE);
+  if (pageCount === 1) return "";
+
+  var handleLinkClick = function handleLinkClick(e, index) {
+    e.preventDefault();
+    setPageNum(index);
+    window.scrollTo(0, 260);
+  };
+
+  var pagination = [];
+
+  var _loop = function _loop(i) {
+    pagination.push(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      className: "nav-item",
+      key: i
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+      className: "nav-link " + (page === i ? "disabled" : ""),
+      href: "#",
+      onClick: function onClick(e) {
+        return handleLinkClick(e, i);
+      }
+    }, i)));
+  };
+
+  for (var i = 1; i <= pageCount; i++) {
+    _loop(i);
+  }
+
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+    className: "nav item-nav"
+  }, pagination);
+};
+
+var NicoItem = function NicoItem(_ref4) {
+  var item = _ref4.item;
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "row mb-3 nico-item"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
     href: "https://www.nicovideo.jp/watch/" + item.video_id
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    className: "mr-3",
+    className: "",
     src: "/nico/image/" + item.video_id
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "media-body"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
     href: "https://www.nicovideo.jp/watch/" + item.video_id,
     target: "_blank"
-  }, item.title)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "TIME:", item.video_time, " / ", item.published_at, " \u6295\u7A3F / ", item.created_at, " \u767B\u9332"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "IMAGE:", item.image_src)));
+  }, item.title)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "TIME:", item.video_time, " / ", item.published_at, " \u6295\u7A3F / ", item.created_at, " \u767B\u9332"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "THUMBNAIL:", item.image_src)));
 };
 
 /***/ }),

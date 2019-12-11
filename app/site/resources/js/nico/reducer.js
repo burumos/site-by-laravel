@@ -32,7 +32,7 @@ export default (state = initialState, action) => {
       const { mylists } = action.payload;
       return {
         ...state,
-        mylists,
+        mylists
       }
     }
     default :

@@ -60,17 +60,25 @@ function RegisterMylist({ jsonText, jsonMessage, changeJsonText, registerMylist 
   );
 }
 
+const ITEMS_BY_PAGE = 25;
 const Mylist = ({ mylists }) => {
   const mylistArray = Object.values(mylists);
   const noSelect = -1;
   const [selectedId, setSelectedId] = useState(noSelect);
+  const [pageNum, setPageNum] = useState(1);
+
+  const items = mylistArray.map(mylist => mylist.id == selectedId
+                                ? mylist.items : []).flat();
+  let displayItems = items.slice((pageNum - 1) * ITEMS_BY_PAGE
+                                 , pageNum * ( ITEMS_BY_PAGE ));
 
   useEffect(() => {
     if (mylistArray.length >= 1
         && selectedId === noSelect) {
       setSelectedId(mylistArray[0].id);
     }
-  })
+    setPageNum(1);
+  }, [selectedId, mylists])
 
   return (
     <div>
@@ -79,7 +87,7 @@ const Mylist = ({ mylists }) => {
       </div>
       <div>
         mylist:
-        <select onChange={ e => setSelectedId(e.target.value) } value={ selectedId }>
+        <select onChange={ e => setSelectedId(Number(e.target.value)) } value={ selectedId }>
           { !Object.keys(mylists) &&
             <option value={noSelect}>----</option>
           }
@@ -87,12 +95,45 @@ const Mylist = ({ mylists }) => {
             <option value={ mylist.id } key={ mylist.id }>{ mylist.name }</option>
           )) }
         </select>
+        <MylistPagination page={pageNum} setPageNum={setPageNum} itemCount={items.length}/>
         <div>
-          { mylistArray.filter(mylist => mylist.id == selectedId)
-            .map( mylist => mylist.items.map(item => <NicoItem item={item} key={item.id}/> )) }
+          { displayItems.map(item => <NicoItem item={item} key={item.id}/> ) }
         </div>
+        <MylistPagination page={pageNum} setPageNum={setPageNum} itemCount={items.length}/>
       </div>
     </div>
+  )
+}
+
+const MylistPagination = ({page, setPageNum, itemCount}) => {
+  const pageCount = Math.round(itemCount / ITEMS_BY_PAGE);
+
+  if (pageCount === 1) return "";
+
+  const handleLinkClick = (e, index) => {
+    e.preventDefault();
+    setPageNum(index);
+    window.scrollTo(0, 260);
+  }
+  let pagination = [];
+  for (let i = 1; i <= pageCount; i++) {
+    pagination.push(
+      <li className="nav-item" key={i}>
+        <a
+          className={"nav-link " + (page === i ? "disabled" : "") }
+          href="#"
+          onClick={e => handleLinkClick(e, i)}
+        >
+          {i}
+        </a>
+      </li>
+    );
+  }
+
+  return (
+    <ul className="nav item-nav">
+      {pagination}
+    </ul>
   )
 }
 
@@ -100,7 +141,7 @@ const NicoItem = ({ item }) => {
   return (
     <div className="row mb-3 nico-item">
       <a href={"https://www.nicovideo.jp/watch/" + item.video_id}>
-        <img className="mr-3" src={"/nico/image/"+item.video_id} />
+        <img className="" src={"/nico/image/"+item.video_id} />
       </a>
       <div className="media-body">
         <h5>
@@ -111,7 +152,7 @@ const NicoItem = ({ item }) => {
           </a>
         </h5>
         <div>TIME:{item.video_time} / {item.published_at} 投稿 / {item.created_at} 登録</div>
-        <div>IMAGE:{item.image_src}</div>
+        <div>THUMBNAIL:{item.image_src}</div>
       </div>
     </div>
   )

@@ -32,7 +32,7 @@ RUN curl -sSLO https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mh
 
 
 WORKDIR /root
-CMD ln -s /var/www/html/app/site /root/
+RUN ln -s /var/www/html/app/site /root/
 
 
 EXPOSE 80

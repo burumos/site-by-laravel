@@ -1,8 +1,18 @@
 
 .nico-item {
-    height: 190px;
+    height: 100px;
+}
+
+.nico-item a {
+    width: 180px;
+    text-align: center;
 }
 
 .nico-item a > img {
-    width: 400px
+    height: 100px;
+}
+
+.item-nav {
+    font-size: 2rem;
+    padding-left: 20vw;
 }
