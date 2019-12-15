@@ -1,0 +1,11 @@
+version: '2'
+
+options:
+  max_attempt: 10
+
+syncs:
+  laravel-sync:
+    src: './app'
+    sync_userid: 'root'
+    sync_excludes: [".git"]
+
