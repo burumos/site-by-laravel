@@ -33,6 +33,7 @@ RUN curl -sSLO https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mh
 WORKDIR /root
 RUN ln -s /var/www/html/app/site /root/
 
+COPY site /var/www/html/app/site
 
 EXPOSE 80
 CMD ["httpd", "-DFOREGROUND"]
