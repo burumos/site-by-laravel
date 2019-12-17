@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-  <div class="container">
+  <div class="container nico-mylist-container">
     <div class="row justify-content-center">
       <div class="col-md-8">
         <div class="card">
@@ -16,6 +16,3 @@
   <span style="display:none;" id="json-data" data-mylists="{{$mylists->toJson()}}"></span>
 @endsection
 
-@php
-$css = "css/nico.css";
-@endphp

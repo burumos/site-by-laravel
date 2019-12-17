@@ -139,20 +139,22 @@ const MylistPagination = ({page, setPageNum, itemCount}) => {
 
 const NicoItem = ({ item }) => {
   return (
-    <div className="row mb-3 nico-item">
-      <a href={"https://www.nicovideo.jp/watch/" + item.video_id}>
+    <div className=" nico-item">
+      <a href={"https://www.nicovideo.jp/watch/" + item.video_id}
+         className="thumbnail">
         <img className="" src={"/nico/image/"+item.video_id} />
       </a>
-      <div className="media-body">
-        <h5>
+      <div className="">
+        <div>
           <a href={"https://www.nicovideo.jp/watch/" + item.video_id}
              target="_blank"
+             className="title"
           >
             { item.title }
           </a>
-        </h5>
-        <div>TIME:{item.video_time} / {item.published_at} 投稿 / {item.created_at} 登録</div>
-        <div>THUMBNAIL:{item.image_src}</div>
+        </div>
+        <div className="date">TIME:{item.video_time} / {item.published_at} 投稿 / {item.created_at} 登録</div>
+        <div className="thumbnail-src">THUMBNAIL:{item.image_src}</div>
       </div>
     </div>
   )
