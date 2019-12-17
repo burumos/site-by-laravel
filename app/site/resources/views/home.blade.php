@@ -20,7 +20,10 @@
                     <div>name: {{ $user->name }}</div>
                     @if (in_array($user->email, \Constant::get('nico-emails')))
                       <div>
-                        <a href="{{ url('nico') }}">nico</a>
+                        <a href="{{ route('nico') }}">NICO</a>
+                      </div>
+                      <div>
+                        <a href="{{ route('nico_ranking') }}">NICO RANKING</a>
                       </div>
                     @endif
                   @endif

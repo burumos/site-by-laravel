@@ -116,4 +116,13 @@ class NicoController extends Controller
         return response($file)
             ->header('Content-Type', $mimeType);
     }
+
+    public function ranking()
+    {
+        if (!in_array(Auth::user()->email, \Constant::get('nico-emails'))) {
+            return redirect()->route('home');
+        }
+
+        return view('nicoRanking');
+    }
 }

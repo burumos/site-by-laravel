@@ -1,0 +1,50 @@
+
+.nico-ranking-container {
+    .rank-select {
+        margin: auto;
+        width: 500px;
+    }
+
+    .rank-item {
+        min-height: 140px;
+    }
+
+    .thumbnail {
+        float: left;
+        width: 255px;
+        min-height: 100px;
+
+        img {
+            height: 140px;
+        }
+    }
+    .text {
+        // margin-left: 150px;
+    }
+    .rank {
+    }
+    .title {
+    }
+    .uploadDate {
+    }
+    .description {
+    }
+}
+
+@media (max-width: 768px) {
+    .nico-ranking-container {
+        .rank-item {
+            min-height: 105px;
+        }
+        .thumbnail {
+            width: 190px;
+
+            img {
+                height: 100px;
+            }
+        }
+        .description {
+            display: none;
+        }
+    }
+}

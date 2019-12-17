@@ -14,3 +14,5 @@ require('./bootstrap');
 
 // nico
 require('./nico/index');
+
+require('./nico-ranking/index');
