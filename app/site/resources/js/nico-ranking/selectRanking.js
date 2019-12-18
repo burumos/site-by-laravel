@@ -21,18 +21,20 @@ export default function SelectRanking({rankings, setRankingKey}) {
         GROUP
         <select
           value={group}
-          onChange={e => handleGroup(e.target.value)}>
+          onChange={e => handleGroup(e.target.value)}
+          className="select-group"
+        >
           <option value={NO_SELECT}>---</option>
           {help.getRankingGroups(rankings).map(group => (
             <option value={group} key={group} >{group}</option>
           ))}
         </select>
-      </div>
-      <div>
         DATE
         <select
           value={date}
-          onChange={e => handleDate(e.target.value)}>
+          onChange={e => handleDate(e.target.value)}
+          className="select-date"
+        >
           <option value={NO_SELECT}>---</option>
           {help.getRankingsDate(rankings, group).map(date => (
             <option value={date} key={date} >{date}</option>
