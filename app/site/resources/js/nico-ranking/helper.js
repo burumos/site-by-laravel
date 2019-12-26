@@ -72,12 +72,17 @@ export function sortRanking(ranking, order) {
   }
 }
 
-export function narrowDownRanking(ranking, condition) {
+export function narrowDownRanking(ranking, condition, baseDate) {
     if (!Array.isArray(ranking)
       || ranking.length === 0)
       return [];
 
-  const baseDate = new Date();
+  // baseDateが正しいDateオブジェクトでなければ現在を基準としてDateオブジェクトを作成
+  if (!baseDate instanceof Date
+      || !baseDate.getTime()) {
+    baseDate = new Date();
+  }
+
   switch (Number(condition.uploadDate)) {
     case 1: // 全て
       break;

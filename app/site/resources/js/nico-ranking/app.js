@@ -45,7 +45,8 @@ export default class App extends React.Component {
 
   render() {
     let ranking = help.getRanking(this.state.rankings, this.state.rankingKey);
-    ranking = help.narrowDownRanking(ranking, this.state.condition);
+    ranking = help.narrowDownRanking(ranking, this.state.condition
+                                     , new Date(this.state.rankingKey.date));
     ranking = help.sortRanking(ranking, this.state.order);
     // console.log(ranking.map(r => r.rank));
     return (
