@@ -60,9 +60,9 @@ export function sortRanking(ranking, order) {
 
   switch (Number(order)) {
     case 1: // rank asc
-      return ranking.sort((a, b) => a.rank > b.rank ? 1 : -1)
+      return ranking.sort((a, b) => Number(a.rank) > Number(b.rank) ? 1 : -1)
     case 2: // rank desc
-      return ranking.sort((a, b) => a.rank < b.rank ? 1 : -1)
+      return ranking.sort((a, b) => Number(a.rank) < Number(b.rank) ? 1 : -1)
     case 3: // upload date asc
       return ranking.sort((a, b) => a.uploadDate > b.uploadDate ? 1 : -1)
     case 4: // upload date desc
