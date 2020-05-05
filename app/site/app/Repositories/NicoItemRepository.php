@@ -46,4 +46,13 @@ class NicoItemRepository
         return $result;
     }
 
+    public function getByVideoIdAndNicoMylistId($videoId, $mylistId)
+    {
+        return $this->nicoItem
+            ->select('*')
+            ->where('video_id', $videoId)
+            ->where('nico_mylist_id', $mylistId)
+            ->get();
+    }
+
 }

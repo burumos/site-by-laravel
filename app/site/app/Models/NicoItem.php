@@ -9,6 +9,7 @@ class NicoItem extends Model
     protected $fillable = [
         'id',
         'title',
+        'description',
         'nico_mylist_id',
         'video_time',
         'video_id',

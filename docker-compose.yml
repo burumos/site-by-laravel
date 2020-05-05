@@ -25,6 +25,7 @@ services:
       MYSQL_DATABASE: laravel
       MYSQL_USER: laravel
       MYSQL_PASSWORD: mysql-password
+      MYSQL_HOST: "*"
     ports:
       - "33066:3306"
     volumes:

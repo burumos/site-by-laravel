@@ -9,21 +9,21 @@ use App\Repositories\NicoItemRepository;
 use Carbon\Carbon;
 use Arr;
 
-class FetchVocRan extends Command
+class FetchUtauRan extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'command:fetchVocRan {fileName?} {rankDate?}';
+    protected $signature = 'command:fetchUtauRan {fileName?} {rankDate?}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'ニコ動スクレイピング vocaloid ranking';
+    protected $description = 'ニコ動スクレイピング utau ranking';
 
     private $htmlScrapService;
     private $nicoRankRepository;
@@ -57,7 +57,7 @@ class FetchVocRan extends Command
 
         // HTMLの読み込み
         $this->htmlScrapService->parseHTML($html);
-        $result = $this->htmlScrapService->getVocaloJson();
+        $result = $this->htmlScrapService->getUtauJson();
 
         foreach ($result as $record) {
             $videoId = Arr::get($record, 'video_id');
@@ -72,7 +72,7 @@ class FetchVocRan extends Command
             }
             $record['nico_item_id'] = $nicoItem->id;
             $record['rank_date'] = $rankDate;
-            $record['kind'] = config('const.nicoRankKind.vocaloid');
+            $record['kind'] = config('const.nicoRankKind.utau');
             $this->nicoRankRepository->insertSingle($record);
         }
 
@@ -100,15 +100,15 @@ class FetchVocRan extends Command
             $context = stream_context_create(array(
                 'http' => ['ignore_errors' => true]
             ));
-            $html = file_get_contents(config('const.rankingFetchUrl.vocaloid'), false, $context);
+            $html = file_get_contents(config('const.rankingFetchUrl.utau'), false, $context);
             preg_match('/HTTP\/1\.[0|1|x] ([0-9]{3})/', $http_response_header[0], $matches);
             $statusCode = $matches[1];
             if ($statusCode != '200') {
                 \Log::error('fetch error');
             }
             $rankDate = Carbon::today();
-
         }
+
         return [$html, $rankDate];
     }
 
