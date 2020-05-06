@@ -21,4 +21,5 @@ Route::prefix('nico')->group(function() {
     Route::post('register', 'NicoController@registerMylist')->name('nico_register');
     Route::get('image/{id}', 'NicoController@getImage')->name('nico_image');
     Route::get('ranking', 'NicoController@ranking')->name('nico_ranking');
+    Route::get('fetch-ranking', 'NicoController@fetchRanking')->name('fetch_nico_ranking');
 });

@@ -13,5 +13,10 @@
       <div id="nico-ranking"></div>
     </div>
   </div>
+  <script>
+    const nicoRankingKind = @json(config('const.nicoRankKind'));
+    const dateList = @json($byRankDate);
+    const fetchRankingUrl = @json(route('fetch_nico_ranking'));
+  </script>
 @endsection
 

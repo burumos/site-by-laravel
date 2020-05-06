@@ -22,11 +22,22 @@ class NicoRankRepository
         return $itemModel;
     }
 
-    public function fetchBy()
+    public function fetchRankDate()
+    {
+        return $this->nicoRank
+            ->select('kind', 'rank_date')
+            ->groupBy('kind', 'rank_date')
+            ->get();
+    }
+
+    public function fetchRankingItem($kind, $date)
     {
         return $this->nicoRank
             ->select('*')
-            ->where()
+            ->where('kind', $kind)
+            ->where('rank_date', $date)
+            ->orderBy('rank')
+            ->with('nicoItem')
             ->get();
     }
 

@@ -28,7 +28,7 @@ function Item({record}) {
       <div className="text">
         <div>
           <span className="rank">{record.rank}</span> :
-          <a href={record.link} className="title">
+          <a href={record.link} className="title" target="_blank">
             {record.title}
           </a>
         </div>

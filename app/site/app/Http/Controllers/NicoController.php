@@ -6,11 +6,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\NicoMylistRepository;
 use App\Repositories\NicoItemRepository;
+use App\Repositories\NicoRankRepository;
 
 class NicoController extends Controller
 {
     private $nicoMylistRepository;
     private $nicoItemRepository;
+    private $nicoRankRepository;
 
     /**
      * Create a new controller instance.
@@ -19,12 +21,14 @@ class NicoController extends Controller
      */
     public function __construct(
         NicoMylistRepository $nicoMylistRepository,
-        NicoItemRepository $nicoItemRepository
+        NicoItemRepository $nicoItemRepository,
+        NicoRankRepository $nicoRankRepository
     )
     {
         $this->middleware('auth');
         $this->nicoMylistRepository = $nicoMylistRepository;
         $this->nicoItemRepository = $nicoItemRepository;
+        $this->nicoRankRepository = $nicoRankRepository;
     }
 
     /**
@@ -123,6 +127,35 @@ class NicoController extends Controller
             return redirect()->route('home');
         }
 
-        return view('nicoRanking');
+        $records = $this->nicoRankRepository->fetchRankDate();
+        $byRankDate = [];
+        foreach ($records as $item) {
+            $date = $item->rank_date->format('Y-m-d');
+            $byRankDate[$item->kind][$date] = [];
+        }
+        $data = compact('byRankDate');
+
+        return view('nicoRanking', $data);
+    }
+
+    public function fetchRanking(Request $request)
+    {
+        $kind = $request->input('kind');
+        $date = $request->input('date');
+
+        $rankingRecords = $this->nicoRankRepository->fetchRankingItem($kind, $date);
+        $result = [];
+        foreach ($rankingRecords as $record) {
+            $result[] = [
+                "description" => $record->nicoItem->description,
+                "link" => 'https://www.nicovideo.jp/watch/' . $record->nicoItem->video_id,
+                'thumbnailImage' => $record->nicoItem->image_src,
+                'title' => $record->nicoItem->title,
+                'uploadDate' => $record->nicoItem->published_at->format('Y/m/d h:i'),
+                'videoId' => $record->nicoItem->video_id,
+            ];
+        }
+
+        return response(json_encode($result));
     }
 }

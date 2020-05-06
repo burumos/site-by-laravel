@@ -11,7 +11,7 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      rankings: {},
+      rankings: dateList,
       rankingKey: {
         group: NO_SELECT,
         date: NO_SELECT,
@@ -32,6 +32,25 @@ export default class App extends React.Component {
   }
   setRankingKey(group, date) {
     this.setState({rankingKey: {group, date}});
+
+    const currentRanking = this.state.rankings[group][date];
+    if (Array.isArray(currentRanking)
+        && currentRanking.length === 0) {
+
+      const params = new URLSearchParams({'kind': group, date});
+      fetch(fetchRankingUrl + '?' + params.toString(), {method: 'GET'})
+      .then(response => {
+        return response.json();
+      }).then((response => {
+        this.setState({rankings: {
+          ...this.state.rankings,
+          [group]: {
+            ...this.state.rankings[group],
+            [date]: response
+          }
+        }})
+      }));
+    }
   }
   setOrder(order) {
     this.setState({order});
