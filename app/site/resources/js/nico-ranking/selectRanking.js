@@ -14,6 +14,19 @@ export default function SelectRanking({rankings, setRankingKey}) {
     setDate(date)
     setRankingKey(group, date);
   }
+  const handleNext = () => {
+    const dateAry = help.getRankingsDate(rankings, group);
+    for (const index in dateAry) {
+      if (dateAry[index] === date) {
+        const nextDate = dateAry[Number(index) + 1];
+        // 次がない場合は処理なし
+        if (!nextDate) return;
+
+        handleDate(nextDate);
+        return;
+      }
+    }
+  }
 
   return (
     <div>
@@ -40,6 +53,7 @@ export default function SelectRanking({rankings, setRankingKey}) {
             <option value={date} key={date} >{date}</option>
           ))}
         </select>
+        <button onClick={handleNext}>next</button>
       </div>
     </div>
   )

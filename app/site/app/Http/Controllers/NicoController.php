@@ -147,6 +147,7 @@ class NicoController extends Controller
         $result = [];
         foreach ($rankingRecords as $record) {
             $result[] = [
+                'rank' => $record->rank,
                 "description" => $record->nicoItem->description,
                 "link" => 'https://www.nicovideo.jp/watch/' . $record->nicoItem->video_id,
                 'thumbnailImage' => $record->nicoItem->image_src,

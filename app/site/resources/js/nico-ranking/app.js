@@ -33,6 +33,8 @@ export default class App extends React.Component {
   setRankingKey(group, date) {
     this.setState({rankingKey: {group, date}});
 
+    // const currentRanking = Array.isArray(this.state.rankings[group]) ?
+    //       this.state.rankings[group][date] : [];
     const currentRanking = this.state.rankings[group][date];
     if (Array.isArray(currentRanking)
         && currentRanking.length === 0) {
