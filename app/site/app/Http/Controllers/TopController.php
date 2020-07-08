@@ -7,7 +7,7 @@ namespace App\Http\Controllers;
 // use Illuminate\Foundation\Validation\ValidatesRequests;
 // use Illuminate\Routing\Controller;
 use App\Http\Controllers\Controller;
-use App\User;
+use App\Models\User;
 
 class TopController extends Controller {
 

@@ -11,9 +11,10 @@
 |
 */
 
-Auth::routes();
+// Auth::routes(['register' => false]);
 
-Route::get('/', 'HomeController@index')->name('home');
+// Route::get('/', 'HomeController@index')->name('home');
+Route::view('/', 'index')->name('home');
 
 // Route::get('nico', 'NicoController@index')->name('nico');
 Route::prefix('nico')->group(function() {
